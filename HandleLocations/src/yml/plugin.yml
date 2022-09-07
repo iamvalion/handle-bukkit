@@ -1,0 +1,13 @@
+name: HandleLocations
+main: me.valion.bukkit.handle.locations.HandleLocations
+depend: [Handle]
+version: ${project.version.major}.${project.version.minor}.${project.version.patch}
+api-version: 1.19
+author: Valion
+commands:
+  locations:
+    description: List locations.
+    aliases: [locs]
+  location:
+    description: Save and manage locations.
+    aliases: [loc]

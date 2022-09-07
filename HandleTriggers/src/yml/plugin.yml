@@ -1,0 +1,6 @@
+name: HandleTriggers
+main: me.valion.bukkit.handle.triggers.HandleTriggers
+depend: [Handle]
+version: ${project.version.major}.${project.version.minor}.${project.version.patch}
+api-version: 1.19
+author: Valion
