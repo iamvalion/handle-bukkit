@@ -1,0 +1,33 @@
+# Global scripting variables: $break
+# COMMAND type variables: {sender}, {label}, {arg<#>} ({arg1}, {arg2}), {args_length}
+
+kit-starter:
+  type: COMMAND
+  properties:
+    command: 'kit'
+  actions:
+    1:
+      if: '"%player_has_permission_handle.cmd.kit%" == "yes"'
+      false:
+        - '[action-package]no-command-permission-error'
+        - '$break'
+    2:
+      if: '{args_length} == 0'
+      true:
+        - '[msg_to_player]&3&lCommand (&f/{label}&3&l):\n&f/{label} <kit> &7- Obtain the specified kit'
+        - '$break'
+    3:
+      if: '{args_length} == 1 && "{arg1}" == "starter" && "%player_has_permission_handle.cmd.kit.starter%" == "yes"'
+      true:
+        - '[cmd_as_console]give {sender} iron_sword 1'
+      false:
+        - '[msg_to_player]&4You can''t use that kit.'
+donate:
+  type: COMMAND
+  properties:
+    command: 'donate'
+  actions:
+    - '[msg_to_player]'
+    - '[msg_to_player]&3Buy ranks, bundles, and perks at &fstore.vality.com&3.'
+    - '[msg_to_player]&3Donations are how we keep the network alive and growing!'
+    - '[msg_to_player]'

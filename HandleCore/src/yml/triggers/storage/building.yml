@@ -1,0 +1,35 @@
+# Global scripting variables: $break
+# PLACE type variables: {player}, {block_material}, ({block_world}, {block_x}, {block_y}, {block_z})
+# BREAK type variables: {player}, {hand_material}, {block_material}, ({block_world}, {block_x}, {block_y}, {block_z})
+
+torch-placed:
+  type: PLACE
+  actions:
+    1:
+      if: '"{block_material}" == "TORCH"'
+      true:
+        - '[msg_to_console]&f{player} &6placed a torch (&f{block_world}: {block_x}, {block_y}, {block_z}&6).'
+easter-egg-broken:
+  type: BREAK
+  actions:
+    1:
+      if: '"{block_world}" == "world" && {block_x} == 100 && {block_y} == 100 && {block_z} == 100'
+      false:
+        - '$break'
+    2:
+      if: '"%player_has_permission_handle.block.easteregg%".equalsIgnoreCase("yes")'
+      true:
+        - '[cmd_as_console]give {player} iron_ingot 8'
+      false:
+        - '$break'
+    3:
+      if: '"%player_has_permission_handle.block.easteregg.bonus%".equalsIgnoreCase("yes")'
+      true:
+        - '[cmd_as_console]give {player} diamond 1'
+stone-broken:
+  type: BREAK
+  actions:
+    1:
+      if: '"{block_material}" == "STONE" && !("{hand_material}".endsWith("PICKAXE"))'
+      true:
+        - '[msg_to_player]&3Use a pickaxe on stone next time! :)'

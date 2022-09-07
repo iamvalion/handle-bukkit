@@ -1,0 +1,8 @@
+# ===========
+# Player Data
+# ===========
+last-name: 'unknown'
+last-ip-address: 'unknown'
+timestamps:
+  last-join: 0
+  last-quit: 0

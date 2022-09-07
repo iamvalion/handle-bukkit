@@ -1,0 +1,12 @@
+name: Handle
+main: me.valion.bukkit.handle.core.HandleCore
+depend: [PlaceholderAPI]
+version: ${project.version.major}.${project.version.minor}.${project.version.patch}
+api-version: 1.19
+author: Valion
+commands:
+  handle:
+    description: Root command for the Handle plugin.
+permissions:
+  handle.*:
+    description: All plugin permissions.

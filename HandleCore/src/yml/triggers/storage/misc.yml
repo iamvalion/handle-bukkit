@@ -1,0 +1,26 @@
+# Global scripting functions: $break
+# JOIN type variables: {player}
+# QUIT type variables: {player}
+
+join-message:
+  type: JOIN
+  properties:
+    cancel-message: true
+  actions:
+    1:
+      if: '"%player_has_permission_handle.triggers.misc.join-message.exempt%" == "yes"'
+      true:
+        - '$break'
+      false:
+        - '[msg_as_console]&f{player} &3joined the game.'
+quit-message:
+  type: QUIT
+  properties:
+    cancel-message: true
+  actions:
+    1:
+      if: '"%player_has_permission_handle.triggers.misc.quit-message.exempt%" == "yes"'
+      true:
+        - '$break'
+      false:
+        - '[msg_as_console]&f{player} &3left the game.'
