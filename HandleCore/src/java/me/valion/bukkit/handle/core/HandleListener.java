@@ -10,10 +10,10 @@ public class HandleListener implements Listener
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-		HandleCore.updatePlayerDataFile(event.getPlayer());
+		HandleCore.updateStoredPlayerNameUuid(event.getPlayer());
 		
 		// Updates some information in the data file for the player when they join
-		String playerFilePath = "players/" + event.getPlayer().getUniqueId().toString() + ".yml";
+		String playerFilePath = "players/" + event.getPlayer().getUniqueId() + ".yml";
 		
 		HandleCore.getFilingCabinet().getConfiguration(playerFilePath).set("timestamps.last-join",
 				System.currentTimeMillis());
@@ -25,7 +25,7 @@ public class HandleListener implements Listener
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		// Creates a data file for the player when they quit (if one doesn't exist) and updates some information
-		String playerFilePath = "players/" + event.getPlayer().getUniqueId().toString() + ".yml";
+		String playerFilePath = "players/" + event.getPlayer().getUniqueId() + ".yml";
 		
 		HandleCore.getFilingCabinet().addDataFile(playerFilePath, "players/_player.yml");
 

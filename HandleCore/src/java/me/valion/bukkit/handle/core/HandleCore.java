@@ -17,29 +17,29 @@ public class HandleCore extends JavaPlugin
 		filingCabinet = new FilingCabinet(this);
 		filingCabinet.addDataFile("settings.yml");
 		filingCabinet.addDataFile("player-map.yml");
-		filingCabinet.addDataFile("action-packages.yml");
+		filingCabinet.addDataFile("action-packages.yml", false);
 		
 		// Registers commands and events
 		getCommand("handle").setExecutor(new HandleCommandExecutor());
 		
 		getServer().getPluginManager().registerEvents(new HandleListener(), this);
-		
+
 		for (Player p : getServer().getOnlinePlayers())
 		{
-			updatePlayerDataFile(p);
+			updateStoredPlayerNameUuid(p);
 		}
 	}
 	
-	public static void updatePlayerDataFile(Player player)
+	public static void updateStoredPlayerNameUuid(Player player)
 	{
 		String playerName = player.getName();
 		String playerUuid = player.getUniqueId().toString();
-		
+
 		// Updates player name and UUID mapping in the player map data file
 		ConfigurationSection playerMapFile = getFilingCabinet().getConfiguration("player-map.yml");
-		
-		playerMapFile.set("uuid-to-name." + playerUuid, playerName.toLowerCase());
-		
+
+		playerMapFile.set("uuid-to-name." + playerUuid, playerName);
+
 		if (playerMapFile.getConfigurationSection("name-to-uuid") != null && playerMapFile.get("name-to-uuid."
 				+ playerName) == null)
 		{
@@ -51,10 +51,10 @@ public class HandleCore extends JavaPlugin
 				}
 			}
 		}
-		playerMapFile.set("name-to-uuid." + playerName.toLowerCase(), playerUuid);
-		
+		playerMapFile.set("name-to-uuid." + playerName, playerUuid);
+
 		getFilingCabinet().saveDataFile("player-map.yml");
-		
+
 		// Creates a data file for the player (if one doesn't exist) and updates some information
 		String playerFilePath = "players/" + playerUuid + ".yml";
 		

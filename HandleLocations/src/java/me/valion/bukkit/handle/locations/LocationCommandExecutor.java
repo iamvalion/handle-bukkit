@@ -112,8 +112,10 @@ public class LocationCommandExecutor implements CommandExecutor
 									
 									if (playerUuid != null)
 									{
+										String playerFilePath = "players/" + playerUuid + ".yml";
+										HandleCore.getFilingCabinet().addDataFile(playerFilePath, "players/_player.yml");
 										ConfigurationSection playerFile = HandleCore.getFilingCabinet()
-												.getConfiguration("players/" + playerUuid + ".yml");
+												.getConfiguration(playerFilePath);
 										Location location = ((Player)sender).getLocation();
 										
 										if (playerFile.getConfigurationSection("locations") != null)
@@ -261,8 +263,10 @@ public class LocationCommandExecutor implements CommandExecutor
 									
 									if (playerUuid != null)
 									{
+										String playerFilePath = "players/" + playerUuid + ".yml";
+										HandleCore.getFilingCabinet().addDataFile(playerFilePath, "players/_player.yml");
 										ConfigurationSection playerFile = HandleCore.getFilingCabinet()
-												.getConfiguration("players/" + playerUuid + ".yml");
+												.getConfiguration(playerFilePath);
 										String locationName = null;
 										
 										for (String l : playerFile.getConfigurationSection("locations")
@@ -455,8 +459,10 @@ public class LocationCommandExecutor implements CommandExecutor
 									
 									if (playerUuid != null)
 									{
+										String playerFilePath = "players/" + playerUuid + ".yml";
+										HandleCore.getFilingCabinet().addDataFile(playerFilePath, "players/_player.yml");
 										ConfigurationSection playerFile = HandleCore.getFilingCabinet()
-												.getConfiguration("players/" + playerUuid + ".yml");
+												.getConfiguration(playerFilePath);
 										if (playerFile == null)
 										{
 											FormatUtility.sendFormattedMessage(sender,

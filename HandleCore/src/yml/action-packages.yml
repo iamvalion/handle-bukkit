@@ -4,13 +4,13 @@ random-void-message:
   - '[msg_to_player]&8%player_name% fell into the void but got yeeted to safety.'
   - '[msg_to_player]&8%player_name% was given a second chance.'
   - '[msg_to_player]&8%player_name% was on the verge of death, but was sent to spawn instead.'
+random-no-command-permission-error:
+  type: random 1
+  actions:
+    - '[msg_to_player]&4You do not have access to that command.'
+    - '[msg_to_player]&4Nice try, mate. You don''t have permission to do that.'
 kit-starter:
   type: all
   actions:
   - '[cmd_as_console]give %player_name% stone_pickaxe 1'
   - '[cmd_as_console]give %player_name% cooked_beef 8'
-no-command-permission-error:
-  type: random 1
-  actions:
-  - '[msg_to_player]&4You do not have access to that command.'
-  - '[msg_to_player]&4Nice try, mate. You don''t have permission to do that.'
