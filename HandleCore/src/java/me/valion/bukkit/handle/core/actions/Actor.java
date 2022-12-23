@@ -8,10 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Actor
 {
@@ -145,41 +142,28 @@ public class Actor
 		this.queueAction(actionString, null, null);
 	}
 	
-	public void queueActionsList(List<String> actionsList, Map<String, String> placeholders, Player targetPlayer)
+	public void queueActionsList(List<Object> actionsList, Map<String, String> placeholders,
+			Player targetPlayer, boolean breakCalled)
 	{
-		for (String a : actionsList)
-		{
-			queueAction(a, placeholders, targetPlayer);
-		}
-	}
-	
-	public void queueActionsList(List<String> actionsList, Map<String, String> placeholders)
-	{
-		this.queueActionsList(actionsList, placeholders, null);
-	}
-	
-	public void queueActionsList(List<String> actionsList, Player targetPlayer)
-	{
-		this.queueActionsList(actionsList, null, targetPlayer);
-	}
-	
-	public void queueActionsSection(ConfigurationSection actionsSection, Map<String, String> placeholders,
-			Player targetPlayer)
-	{
-		boolean breakCalled = false;
 		Interpreter interpreter = new Interpreter();
 		
 		Bukkit.getLogger().info("for loop");
-		for (int i = 1; i <= actionsSection.getKeys(false).size() && !breakCalled; i++)
+		for (int i = 0; i < actionsList.size() && !breakCalled; i++)
 		{
-			String condition = actionsSection.getString(i + ".if");
+			if (actionsList.get(i) instanceof String) {
+				queueAction((String) actionsList.get(i), placeholders, targetPlayer);
+				continue;
+			}
+
+			LinkedHashMap<String, Object> itemMap = (LinkedHashMap<String, Object>) actionsList.get(i);
+
+			String condition = (String) itemMap.get("if");
 			Boolean evaluation;
-			List<String> actions = new ArrayList<>();
-			
+
 			Bukkit.getLogger().info("Component " + i);
 			try
 			{
-				if (actionsSection.getString(i + ".if") != null)
+				if (condition != null)
 				{
 					Bukkit.getLogger().info("  'if' is not null");
 					Bukkit.getLogger().info("  'if' is '" + condition + "'");
@@ -207,46 +191,45 @@ public class Actor
 				}
 				
 				Bukkit.getLogger().info("  'if' evaluation is " + evaluation);
-				
-				// Add actions to the actions List to be queued
-				if (!actionsSection.getStringList(i + "." + evaluation).isEmpty())
+
+				if (itemMap.get(evaluation) == null) {
+					continue;
+				}
+				List<Object> evaluationList = (List)(itemMap.get(evaluation));
+
+				for (int j = 0; j < evaluationList.size() && !breakCalled; j++)
 				{
-					Bukkit.getLogger().info("  'actions':");
-					for (String a : actionsSection.getStringList(i + "." + evaluation))
+					// If Strings, set placeholders and queue the actions (unless break instruction received)
+					if (evaluationList.get(j) instanceof String)
 					{
+						String a = (String) evaluationList.get(j);
 						if (a.contains("$break"))
 						{
 							breakCalled = true;
 							break;
 						}
-						Bukkit.getLogger().info("  - " + a);
-						actions.add(a);
-					}
-				}
-				
-				Bukkit.getLogger().info("  'actions':");
-				// Set placeholders and queue the actions
-				if (!actions.isEmpty()){
-					for (int j = 0; j < actions.size(); j++)
-					{
+
+						Bukkit.getLogger().info("  - " + a + " <-- RAW");
 						// Set trigger-specific variables
 						if (placeholders != null && !placeholders.isEmpty())
 						{
 							for (Map.Entry<String, String> p : placeholders.entrySet())
 							{
-								actions.set(j, actions.get(j).replace(p.getKey(), p.getValue()));
+								a = a.replace(p.getKey(), p.getValue());
 							}
 						}
 						// Set PlaceholderAPI variables
-						actions.set(j, PlaceholderAPI.setPlaceholders(targetPlayer, actions.get(j)));
-						Bukkit.getLogger().info("  - " + actions.get(j));
+						a = PlaceholderAPI.setPlaceholders(targetPlayer, a);
+						Bukkit.getLogger().info("  - " + a + " <-- PLACED");
 						// Queue actions
-						queueAction(actions.get(j), targetPlayer);
+						queueAction(a, targetPlayer);
 					}
-				}
-				else
-				{
-					Bukkit.getLogger().info("    (empty)");
+					// Else, recursively call this function
+					else
+					{
+						Bukkit.getLogger().info("  Recursive call made");
+						queueActionsList(evaluationList, placeholders, targetPlayer, false);
+					}
 				}
 				
 				if (breakCalled)
@@ -259,16 +242,34 @@ public class Actor
 				Bukkit.getLogger().warning("Error: " + e.getMessage());
 			}
 		}
+
+		Bukkit.getLogger().info("  'actions':");
+		// Set placeholders and queue the actions
+		if (!this.actions.isEmpty()){
+			for (Action a : this.actions) {
+				Bukkit.getLogger().info("  - " + a.getString());
+			}
+		}
+		else
+		{
+			Bukkit.getLogger().info("    (empty)");
+		}
+	}
+
+	public void queueActionsList(List<Object> actionsList, Map<String, String> placeholders,
+			Player targetPlayer)
+	{
+		this.queueActionsList(actionsList, placeholders, targetPlayer, false);
 	}
 	
-	public void queueActionsSection(ConfigurationSection actionsSection, Map<String, String> placeholders)
+	public void queueActionsList(List<Object> actionsList, Map<String, String> placeholders)
 	{
-		this.queueActionsSection(actionsSection, placeholders, null);
+		this.queueActionsList(actionsList, placeholders, null, false);
 	}
 	
-	public void queueActionsSection(ConfigurationSection actionsSection, Player targetPlayer)
+	public void queueActionsList(List<Object> actionsList, Player targetPlayer)
 	{
-		this.queueActionsSection(actionsSection, null, targetPlayer);
+		this.queueActionsList(actionsList, null, targetPlayer, false);
 	}
 	
 	private List<String> getRandomActions(List<String> actions, int count)

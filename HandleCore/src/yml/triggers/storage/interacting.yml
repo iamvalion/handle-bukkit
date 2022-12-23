@@ -6,32 +6,27 @@
 sign-clicked:
   type: BLOCK_USE
   actions:
-    1:
-      if: '"{block_material}".endsWith("SIGN")'
+    - if: '"{block_material}".endsWith("SIGN")'
       true:
         - '[msg_to_console]&f{player} &6clicked a sign (&f{block_world}: {block_x}, {block_y}, {block_z}&6).'
 compass-used:
   type: BLOCK_USE
   actions:
-    1:
-      if: '"{hand_material}" == "COMPASS"'
+    - if: '"{hand_material}" == "COMPASS"'
       true:
         - '[cmd_as_console]tp {player} 0 0 0'
 obsidian-attacked:
   type: BLOCK_ATTACK
   actions:
-    1:
-      if: '"{block_world}" == "world" && {block_x} == 0 && {block_y} == 0 && {block_z} == 0'
+    - if: '"{block_world}" == "world" && {block_x} == 0 && {block_y} == 0 && {block_z} == 0'
       false:
         - '$break'
-    2:
-      if: '"{block_material}" == "CRYING_OBSIDIAN"'
+    - if: '"{block_material}" == "CRYING_OBSIDIAN"'
       true:
         - '[msg_to_player]&3You made the One True and Holy Obsidian cry! :('
 tripwire-triggered:
   type: BLOCK_INTERACT
   actions:
-    1:
-      if: '"{block_material}" == "TRIPWIRE"'
+    - if: '"{block_material}" == "TRIPWIRE"'
       true:
         - '[msg_to_console]&f{player} &6ran into tripwire (&f{block_world}: {block_x}, {block_y}, {block_z}&6).'

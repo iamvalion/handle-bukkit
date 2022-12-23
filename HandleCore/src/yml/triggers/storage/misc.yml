@@ -8,8 +8,7 @@ join-message:
   properties:
     cancel-message: true
   actions:
-    1:
-      if: '"%player_has_permission_handle.triggers.misc.join-message.exempt%" == "yes"'
+    - if: '"%player_has_permission_handle.triggers.misc.join-message.exempt%" == "yes"'
       true:
         - '$break'
       false:
@@ -19,8 +18,7 @@ quit-message:
   properties:
     cancel-message: true
   actions:
-    1:
-      if: '"%player_has_permission_handle.triggers.misc.quit-message.exempt%" == "yes"'
+    - if: '"%player_has_permission_handle.triggers.misc.quit-message.exempt%" == "yes"'
       true:
         - '$break'
       false:
@@ -30,8 +28,7 @@ death-message:
   properties:
     cancel-message: false
   actions:
-    1:
-      if: '"%player_has_permission_handle.triggers.misc.death-message.exempt%" == "yes"'
+    - if: '"%player_has_permission_handle.triggers.misc.death-message.exempt%" == "yes"'
       true:
         - '$break'
       false:

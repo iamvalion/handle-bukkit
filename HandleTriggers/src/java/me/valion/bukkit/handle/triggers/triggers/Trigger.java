@@ -47,11 +47,7 @@ public class Trigger
 	{
 		if (actions instanceof List)
 		{
-			actor.queueActionsList((List<String>)actions, placeholders, targetPlayer);
-		}
-		else if (actions instanceof ConfigurationSection)
-		{
-			actor.queueActionsSection((ConfigurationSection)actions, placeholders, targetPlayer);
+			actor.queueActionsList((List) actions, placeholders, targetPlayer);
 		}
 		else
 		{
