@@ -4,3 +4,6 @@ depend: [Handle]
 version: ${project.version.major}.${project.version.minor}.${project.version.patch}
 api-version: 1.19
 author: Valion
+commands:
+  triggers:
+    description: Reload all triggers.

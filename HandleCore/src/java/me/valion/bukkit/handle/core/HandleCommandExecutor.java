@@ -1,10 +1,15 @@
 package me.valion.bukkit.handle.core;
 
 import me.valion.bukkit.handle.core.util.FormatUtility;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+
+import java.util.List;
+import java.util.Map;
 
 public class HandleCommandExecutor implements CommandExecutor
 {
@@ -40,7 +45,12 @@ public class HandleCommandExecutor implements CommandExecutor
   	  					// Reloads all data files, then saves them again to ensure defaults are copied
 	  	  				HandleCore.getFilingCabinet().loadAllDataFiles();
 	  	  				HandleCore.getFilingCabinet().saveAllDataFiles();
-	  	  				
+						// Reloads all triggers if HandleTriggers is present
+						if (Bukkit.getPluginManager().getPlugin("HandleTriggers") != null)
+						{
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "triggers reload");
+						}
+
 	  	  				FormatUtility.sendFormattedMessage(sender, settingsFile.getString("lang.reload")
 	  	  						.replace("{0}", plugin.getDescription().getName()).replace("{1}", plugin
 	  	  								.getDescription().getVersion()));
@@ -70,7 +80,7 @@ public class HandleCommandExecutor implements CommandExecutor
   	  							.getString("lang.no-command-permission"));
   					}
   				}
-  				// If the first argument is unknown/unexpected, displays the command usage page
+				// If the first argument is unknown/unexpected, displays the command usage page
   				else
   				{
   					displayCommandUsage(sender, label);

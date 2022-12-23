@@ -15,8 +15,12 @@ public class TriggerCommand extends BukkitCommand
 	
 	public TriggerCommand(Trigger trigger)
 	{
-		super(trigger.getName());
+		super(trigger.getProperties().getString("command"));
 		this.trigger = trigger;
+		if (this.trigger.getProperties().getString("description") != null)
+			this.description = this.trigger.getProperties().getString("description");
+		if (!this.trigger.getProperties().getStringList("aliases").isEmpty())
+			this.setAliases(this.trigger.getProperties().getStringList("aliases"));
 	}
 	
 	@Override
