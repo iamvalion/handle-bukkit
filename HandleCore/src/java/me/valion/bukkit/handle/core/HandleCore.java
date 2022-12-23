@@ -19,9 +19,10 @@ public class HandleCore extends JavaPlugin
 		filingCabinet.addDataFile("player-map.yml");
 		filingCabinet.addDataFile("action-packages.yml", false);
 		
-		// Registers commands and events
+		// Registers plugin commands
 		getCommand("handle").setExecutor(new HandleCommandExecutor());
-		
+
+		// Registers plugin events
 		getServer().getPluginManager().registerEvents(new HandleListener(), this);
 
 		for (Player p : getServer().getOnlinePlayers())

@@ -13,9 +13,7 @@ import java.util.Set;
 
 public class LocationsCommandExecutor implements CommandExecutor
 {
-	private ConfigurationSection coreSettingsFile;
-	private ConfigurationSection settingsFile;
-	private ConfigurationSection locationsFile;
+	private ConfigurationSection coreSettingsFile, settingsFile, locationsFile;
 	
 	/*
 	 * Executes the command "/locations"

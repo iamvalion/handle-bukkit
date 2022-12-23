@@ -12,7 +12,7 @@ public class HandleLocations extends JavaPlugin
 		HandleCore.getFilingCabinet().addDataFile("locations/settings.yml");
 		HandleCore.getFilingCabinet().addDataFile("locations/storage.yml");
 		
-		// Registers commands
+		// Registers plugin commands
 		getCommand("location").setExecutor(new LocationCommandExecutor());
 		getCommand("locations").setExecutor(new LocationsCommandExecutor());
 	}

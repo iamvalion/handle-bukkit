@@ -1,6 +1,7 @@
 # Global scripting functions: $break
 # JOIN type variables: {player}
 # QUIT type variables: {player}
+# DEATH type variables: {player}, {player_world}, {player_x}, {player_y}, {player_z}
 
 join-message:
   type: JOIN
@@ -24,3 +25,14 @@ quit-message:
         - '$break'
       false:
         - '[msg_as_console]&f{player} &3left the game.'
+death-message:
+  type: DEATH
+  properties:
+    cancel-message: false
+  actions:
+    1:
+      if: '"%player_has_permission_handle.triggers.misc.death-message.exempt%" == "yes"'
+      true:
+        - '$break'
+      false:
+        - '[msg_to_player]&6You died in world &f{player_world} &6at coordinates &f{player_x} {player_x} {player_x}&3.'

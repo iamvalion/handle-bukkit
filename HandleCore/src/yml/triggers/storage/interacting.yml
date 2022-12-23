@@ -1,7 +1,7 @@
 # Global scripting variables: $break
-# BLOCK_USE type variables: {player}, {hand_material}, {block_material}, ({block_world}, {block_x}, {block_y}, {block_z})
-# BLOCK_ATTACK type variables: {player}, {hand_material}, {block_material}, ({block_world}, {block_x}, {block_y}, {block_z})
-# BLOCK_INTERACT type variables: {player}, {hand_material}, {block_material}, ({block_world}, {block_x}, {block_y}, {block_z})
+# BLOCK_USE type variables: {player}, {hand_material}, {block_material}, {block_world}, {block_x}, {block_y}, {block_z}
+# BLOCK_ATTACK type variables: {player}, {hand_material}, {block_material}, {block_world}, {block_x}, {block_y}, {block_z}
+# BLOCK_INTERACT type variables: {player}, {hand_material}, {block_material}, {block_world}, {block_x}, {block_y}, {block_z}
 
 sign-clicked:
   type: BLOCK_USE

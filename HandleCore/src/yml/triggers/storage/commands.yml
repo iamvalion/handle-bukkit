@@ -9,7 +9,7 @@ kit-starter:
     1:
       if: '"%player_has_permission_handle.cmd.kit%" == "yes"'
       false:
-        - '[action-package]no-command-permission-error'
+        - '[action_package]no-command-permission-error'
         - '$break'
     2:
       if: '{args_length} == 0'

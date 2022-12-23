@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -40,6 +41,10 @@ public class TriggerListener implements Listener
 			}
 			else {
 				placeholders.put("{block_material}", "AIR");
+				placeholders.put("{block_world}", event.getPlayer().getWorld().getName());
+				placeholders.put("{block_x}", "" + (int) Math.floor(event.getPlayer().getLocation().getX()));
+				placeholders.put("{block_y}", "" + (int) Math.floor(event.getPlayer().getLocation().getY()) + 1);
+				placeholders.put("{block_z}", "" + (int) Math.floor(event.getPlayer().getLocation().getZ()));
 			}
 			
 			// Check if the trigger type "BLOCK_USE" should be used
@@ -75,7 +80,7 @@ public class TriggerListener implements Listener
 	}
 	
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event)
+	public void onPlayerBlockBreak(BlockBreakEvent event)
 	{
 		Map<String, String> placeholders = new HashMap<>();
 		
@@ -96,7 +101,7 @@ public class TriggerListener implements Listener
 	}
 	
 	@EventHandler
-	public void onPLayerJoin(PlayerJoinEvent event)
+	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		Map<String, String> placeholders = new HashMap<>();
 		
@@ -115,7 +120,7 @@ public class TriggerListener implements Listener
 	}
 	
 	@EventHandler
-	public void onBlockPlace(BlockPlaceEvent event)
+	public void onPlayerBlockPlace(BlockPlaceEvent event)
 	{
 		Map<String, String> placeholders = new HashMap<>();
 		
@@ -123,7 +128,7 @@ public class TriggerListener implements Listener
 		placeholders.put("{player}", event.getPlayer().getName());
 		placeholders.put("{hand_material}", event.getItemInHand().getType().name());
 		placeholders.put("{block_material}", event.getBlock().getType().name());
-		placeholders.put("{block_world}", (event.getBlock().getLocation().getWorld().getName()));
+		placeholders.put("{block_world}", event.getBlock().getLocation().getWorld().getName());
 		placeholders.put("{block_x}", "" + Location.locToBlock(event.getBlock().getLocation().getX()));
 		placeholders.put("{block_y}", "" + Location.locToBlock(event.getBlock().getLocation().getY()));
 		placeholders.put("{block_z}", "" + Location.locToBlock(event.getBlock().getLocation().getZ()));
@@ -134,9 +139,32 @@ public class TriggerListener implements Listener
 			t.runActions(placeholders, event.getPlayer());
 		}
 	}
+
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event)
+	{
+		Map<String, String> placeholders = new HashMap<>();
+
+		// Set placeholders
+		placeholders.put("{player}", event.getEntity().getName());
+		placeholders.put("{player_world}", event.getEntity().getLocation().getWorld().getName());
+		placeholders.put("{player_x}", "" + (int) Math.round(event.getEntity().getLocation().getX()));
+		placeholders.put("{player_y}", "" + (int) Math.round(event.getEntity().getLocation().getY()));
+		placeholders.put("{player_z}", "" + (int) Math.round(event.getEntity().getLocation().getZ()));
+
+		// Run actions for all triggers with type "PLACE"
+		for (Trigger t : HandleTriggers.getTriggerManager().getDeathTriggers())
+		{
+			if (t.getProperties().getBoolean("cancel-message"))
+			{
+				event.setDeathMessage(null);
+			}
+			t.runActions(placeholders, event.getEntity());
+		}
+	}
 	
 	@EventHandler
-	public void onPLayerQuit(PlayerQuitEvent event)
+	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		Map<String, String> placeholders = new HashMap<>();
 		

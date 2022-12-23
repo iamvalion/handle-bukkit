@@ -1,0 +1,5 @@
+# =======================
+# HandleTriggers Settings
+# =======================
+lang:
+  reload: '&2All triggers were reloaded.'

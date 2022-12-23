@@ -9,18 +9,27 @@ import java.util.Locale;
 
 public class TriggerManager
 {
-	private List<Trigger> blockAttackTriggers = new ArrayList<>();
-	private List<Trigger> blockInteractTriggers = new ArrayList<>();
-	private List<Trigger> blockUseTriggers = new ArrayList<>();
-	private List<Trigger> breakTriggers = new ArrayList<>();
-	private List<Trigger> commandTriggers = new ArrayList<>();
-	private List<Trigger> joinTriggers = new ArrayList<>();
-	private List<Trigger> placeTriggers = new ArrayList<>();
-	private List<Trigger> quitTriggers = new ArrayList<>();
+	private List<Trigger> blockAttackTriggers;
+	private List<Trigger> blockInteractTriggers;
+	private List<Trigger> blockUseTriggers;
+	private List<Trigger> breakTriggers;
+	private List<Trigger> commandTriggers;
+	private List<Trigger> deathTriggers;
+	private List<Trigger> joinTriggers;
+	private List<Trigger> placeTriggers;
+	private List<Trigger> quitTriggers;
 	
 	public TriggerManager()
 	{
-		// TODO
+		this.blockAttackTriggers = new ArrayList<>();
+		this.blockInteractTriggers = new ArrayList<>();
+		this.blockUseTriggers = new ArrayList<>();
+		this.breakTriggers = new ArrayList<>();
+		this.commandTriggers = new ArrayList<>();
+		this.deathTriggers = new ArrayList<>();
+		this.joinTriggers = new ArrayList<>();
+		this.placeTriggers = new ArrayList<>();
+		this.quitTriggers = new ArrayList<>();
 	}
 	
 	public void loadTriggers(ConfigurationSection... triggerSections)
@@ -31,6 +40,7 @@ public class TriggerManager
 		this.blockUseTriggers.clear();
 		this.breakTriggers.clear();
 		this.commandTriggers.clear();
+		this.deathTriggers.clear();
 		this.joinTriggers.clear();
 		this.placeTriggers.clear();
 		this.quitTriggers.clear();
@@ -56,6 +66,7 @@ public class TriggerManager
 							case "BLOCK_USE" -> this.blockUseTriggers.add(trigger);
 							case "BREAK" -> this.breakTriggers.add(trigger);
 							case "COMMAND" -> this.commandTriggers.add(trigger);
+							case "DEATH" -> this.deathTriggers.add(trigger);
 							case "JOIN" -> this.joinTriggers.add(trigger);
 							case "PLACE" -> this.placeTriggers.add(trigger);
 							case "QUIT" -> this.quitTriggers.add(trigger);
@@ -90,6 +101,11 @@ public class TriggerManager
 	public List<Trigger> getCommandTriggers()
 	{
 		return this.commandTriggers;
+	}
+
+	public List<Trigger> getDeathTriggers()
+	{
+		return this.deathTriggers;
 	}
 	
 	public List<Trigger> getJoinTriggers()
