@@ -36,6 +36,7 @@ _Note: These are in no particular order._
 * The current way of mapping player usernames to UUIDs (`player-map.yml`) may be completely unnecessary. Find out if there's a better way to do this with either the Mojang or Spigot API.
 * Add the ability to set other players as the target of actions, as opposed to the target player always having to be the one who triggered the action.
 * Fix the issue where `MsgToConsoleAction` color codes don't work properly unless a plugin like Essentials is installed and handles the colors.
+* Fix `MsgAsPlayerAction`, as it throws errors when called and may just need to be removed. The player gets kicked with the message "Illegal characters in chat".
 * Tweak the `FilingCabinet` to allow for handling directories (and all files contained) instead of just individual files.
 
 ### HandleLocations
