@@ -192,10 +192,19 @@ public class Actor
 				
 				Bukkit.getLogger().info("  'if' evaluation is " + evaluation);
 
-				if (itemMap.get(evaluation) == null) {
+				List<Object> evaluationList;
+				if (itemMap.get(evaluation) != null)
+				{
+					evaluationList = (List)(itemMap.get(evaluation));
+				}
+				else if (itemMap.get(evaluation.toString()) != null)
+				{
+					evaluationList = (List)(itemMap.get(evaluation.toString()));
+				}
+				else
+				{
 					continue;
 				}
-				List<Object> evaluationList = (List)(itemMap.get(evaluation));
 
 				for (int j = 0; j < evaluationList.size() && !breakCalled; j++)
 				{
